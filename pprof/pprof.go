@@ -12,10 +12,10 @@
 // The handled paths all begin with /debug/pprof/.
 //
 // To use pprof, link this package into your program:
-//	import _ "net/http/pprof"
+//	import _ "github.com/songgao/go.http/pprof"
 //
 // If your application is not already running an http server, you
-// need to start one.  Add "net/http" and "log" to your imports and
+// need to start one.  Add "github.com/songgao/go.http" and "log" to your imports and
 // the following code to your main function:
 //
 // 	go func() {
@@ -47,10 +47,10 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
+	http "github.com/songgao/go.http"
 	"html/template"
 	"io"
 	"log"
-	"net/http"
 	"os"
 	"runtime"
 	"runtime/pprof"

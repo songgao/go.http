@@ -5,8 +5,8 @@
 package httptest
 
 import (
+	http "github.com/songgao/go.http"
 	"io/ioutil"
-	"net/http"
 	"testing"
 )
 

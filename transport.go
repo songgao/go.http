@@ -902,11 +902,11 @@ WaitResponse:
 			pconnDeadCh = nil                               // avoid spinning
 			failTicker = time.After(100 * time.Millisecond) // arbitrary time to wait for resc
 		case <-failTicker:
-			re = responseAndError{err: errors.New("net/http: transport closed before response was received")}
+			re = responseAndError{err: errors.New("github.com/songgao/go.http: transport closed before response was received")}
 			break WaitResponse
 		case <-respHeaderTimer:
 			pc.close()
-			re = responseAndError{err: errors.New("net/http: timeout awaiting response headers")}
+			re = responseAndError{err: errors.New("github.com/songgao/go.http: timeout awaiting response headers")}
 			break WaitResponse
 		case re = <-resc:
 			break WaitResponse

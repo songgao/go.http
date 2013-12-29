@@ -9,10 +9,10 @@ package cgi
 import (
 	"bufio"
 	"fmt"
+	http "github.com/songgao/go.http"
+	"github.com/songgao/go.http/httptest"
 	"io"
 	"net"
-	"net/http"
-	"net/http/httptest"
 	"os"
 	"os/exec"
 	"path/filepath"

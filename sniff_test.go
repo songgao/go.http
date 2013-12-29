@@ -7,11 +7,11 @@ package http_test
 import (
 	"bytes"
 	"fmt"
+	. "github.com/songgao/go.http"
+	"github.com/songgao/go.http/httptest"
 	"io"
 	"io/ioutil"
 	"log"
-	. "net/http"
-	"net/http/httptest"
 	"reflect"
 	"strconv"
 	"strings"

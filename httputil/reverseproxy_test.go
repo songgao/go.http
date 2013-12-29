@@ -7,9 +7,9 @@
 package httputil
 
 import (
+	http "github.com/songgao/go.http"
+	"github.com/songgao/go.http/httptest"
 	"io/ioutil"
-	"net/http"
-	"net/http/httptest"
 	"net/url"
 	"strings"
 	"testing"

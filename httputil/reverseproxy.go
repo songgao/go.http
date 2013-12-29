@@ -7,10 +7,10 @@
 package httputil
 
 import (
+	http "github.com/songgao/go.http"
 	"io"
 	"log"
 	"net"
-	"net/http"
 	"net/url"
 	"strings"
 	"sync"

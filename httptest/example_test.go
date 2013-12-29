@@ -6,10 +6,10 @@ package httptest_test
 
 import (
 	"fmt"
+	http "github.com/songgao/go.http"
+	"github.com/songgao/go.http/httptest"
 	"io/ioutil"
 	"log"
-	"net/http"
-	"net/http/httptest"
 )
 
 func ExampleResponseRecorder() {

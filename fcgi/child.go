@@ -9,11 +9,11 @@ package fcgi
 import (
 	"errors"
 	"fmt"
+	http "github.com/songgao/go.http"
+	"github.com/songgao/go.http/cgi"
 	"io"
 	"io/ioutil"
 	"net"
-	"net/http"
-	"net/http/cgi"
 	"os"
 	"strings"
 	"time"

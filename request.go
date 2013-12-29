@@ -12,6 +12,7 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
+	proxyProtocol "github.com/racker/go-proxy-protocol"
 	"io"
 	"io/ioutil"
 	"mime"
@@ -174,6 +175,17 @@ type Request struct {
 	// handler.
 	// This field is ignored by the HTTP client.
 	RemoteAddr string
+
+	// ProxyLine consists of information from PROXY line as indicated in
+	// Proxy Protocol (v1).
+	//
+	// PROXY line is parsed only if 'P' appears in Options part of Addr , in
+	// which case every request MUST have a PROXY line. This is to avoid port
+	// sharing between public and private access, which is a big security
+	// issue. Please refer to Proxy Protocol specs for more details.
+	//
+	// This field is ignored by the HTTP client.
+	ProxyLine *proxyProtocol.ProxyLine
 
 	// RequestURI is the unmodified Request-URI of the
 	// Request-Line (RFC 2616, Section 5.1) as sent by the client
