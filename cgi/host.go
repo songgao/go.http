@@ -17,9 +17,9 @@ package cgi
 import (
 	"bufio"
 	"fmt"
+	http "github.com/songgao/go.http"
 	"io"
 	"log"
-	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"

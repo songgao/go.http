@@ -76,5 +76,21 @@ custom Server:
 		MaxHeaderBytes: 1 << 20,
 	}
 	log.Fatal(s.ListenAndServe())
+
+
+The listening Addr is the format of "TCP Listen Address|Options". It's
+compatible with TCP listen address, i.e., "|Options" is optional. Examples of
+valid Addr's: ":80|P", "127.0.0.1:80|P", ":80", "127.0.0.1:80".
+
+Currently, only "P" (using Proxy Protocol). is supported in Options part.
+
+If an uppercase "P" appears in Options part of Addr, the http server is
+configured to use Proxy Protocol. If configured to use Proxy Protocol, every
+request has to provide the PROXY line. (This explicitly prevents port sharing
+between public and private access.) PROXY line is parsed into ProxyLine field
+in Request.
+
+To use Option(s), the listener has to be created by http package, i.e., ListenAndServe or ListenAndServeTLS have to be used.
+
 */
 package http

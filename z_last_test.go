@@ -5,7 +5,7 @@
 package http_test
 
 import (
-	"net/http"
+	http "github.com/songgao/go.http"
 	"runtime"
 	"sort"
 	"strings"
@@ -70,12 +70,12 @@ func afterTest(t *testing.T) {
 	}
 	var bad string
 	badSubstring := map[string]string{
-		").readLoop(":                                  "a Transport",
-		").writeLoop(":                                 "a Transport",
-		"created by net/http/httptest.(*Server).Start": "an httptest.Server",
-		"timeoutHandler":                               "a TimeoutHandler",
-		"net.(*netFD).connect(":                        "a timing out dial",
-		").noteClientGone(":                            "a closenotifier sender",
+		").readLoop(":  "a Transport",
+		").writeLoop(": "a Transport",
+		"created by github.com/songgao/go.http/httptest.(*Server).Start": "an httptest.Server",
+		"timeoutHandler":        "a TimeoutHandler",
+		"net.(*netFD).connect(": "a timing out dial",
+		").noteClientGone(":     "a closenotifier sender",
 	}
 	var stacks string
 	for i := 0; i < 4; i++ {

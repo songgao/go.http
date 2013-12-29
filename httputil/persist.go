@@ -3,15 +3,15 @@
 // license that can be found in the LICENSE file.
 
 // Package httputil provides HTTP utility functions, complementing the
-// more common ones in the net/http package.
+// more common ones in the github.com/songgao/go.http package.
 package httputil
 
 import (
 	"bufio"
 	"errors"
+	http "github.com/songgao/go.http"
 	"io"
 	"net"
-	"net/http"
 	"net/textproto"
 	"sync"
 )

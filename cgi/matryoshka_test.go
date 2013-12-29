@@ -10,7 +10,7 @@ package cgi
 
 import (
 	"fmt"
-	"net/http"
+	http "github.com/songgao/go.http"
 	"os"
 	"testing"
 )

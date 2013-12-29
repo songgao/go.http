@@ -8,8 +8,8 @@ package cookiejar
 import (
 	"errors"
 	"fmt"
+	http "github.com/songgao/go.http"
 	"net"
-	"net/http"
 	"net/url"
 	"sort"
 	"strings"
@@ -56,7 +56,7 @@ type Options struct {
 	PublicSuffixList PublicSuffixList
 }
 
-// Jar implements the http.CookieJar interface from the net/http package.
+// Jar implements the http.CookieJar interface from the github.com/songgao/go.http package.
 type Jar struct {
 	psList PublicSuffixList
 

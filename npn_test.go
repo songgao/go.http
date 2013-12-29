@@ -8,10 +8,10 @@ import (
 	"bufio"
 	"crypto/tls"
 	"fmt"
+	. "github.com/songgao/go.http"
+	"github.com/songgao/go.http/httptest"
 	"io"
 	"io/ioutil"
-	. "net/http"
-	"net/http/httptest"
 	"strings"
 	"testing"
 )

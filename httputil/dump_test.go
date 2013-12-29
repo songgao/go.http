@@ -7,9 +7,9 @@ package httputil
 import (
 	"bytes"
 	"fmt"
+	http "github.com/songgao/go.http"
 	"io"
 	"io/ioutil"
-	"net/http"
 	"net/url"
 	"testing"
 )

@@ -6,7 +6,7 @@ package httptest
 
 import (
 	"fmt"
-	"net/http"
+	http "github.com/songgao/go.http"
 	"testing"
 )
 

@@ -11,6 +11,7 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
+	proxyProtocol "github.com/racker/go-proxy-protocol"
 	"io"
 	"io/ioutil"
 	"log"
@@ -31,6 +32,7 @@ var (
 	ErrBodyNotAllowed  = errors.New("http: request method or response status code does not allow body")
 	ErrHijacked        = errors.New("Conn has been hijacked")
 	ErrContentLength   = errors.New("Conn.Write wrote more than the declared Content-Length")
+	ErrInvalidOption   = errors.New("Invalid option exists in Options part of Addr")
 )
 
 // Objects implementing the Handler interface can be
@@ -1119,6 +1121,16 @@ func (c *conn) serve() {
 		}
 	}
 
+	var pl *proxyProtocol.ProxyLine
+	if c.server.usingProxyProtocol {
+		var err error
+		pl, err = proxyProtocol.ConsumeProxyLine(c.buf.Reader)
+		if err != nil || pl == nil {
+			io.WriteString(c.rwc, "HTTP/1.1 400 Bad Request\r\nParsing PROXY line error.\r\n\r\n")
+			return
+		}
+	}
+
 	for {
 		w, err := c.readRequest()
 		if err != nil {
@@ -1139,6 +1151,8 @@ func (c *conn) serve() {
 			io.WriteString(c.rwc, "HTTP/1.1 400 Bad Request\r\n\r\n")
 			break
 		}
+
+		w.req.ProxyLine = pl
 
 		// Expect 100 Continue support
 		req := w.req
@@ -1578,6 +1592,8 @@ type Server struct {
 	// and RemoteAddr if not already set.  The connection is
 	// automatically closed when the function returns.
 	TLSNextProto map[string]func(*Server, *tls.Conn, Handler)
+
+	usingProxyProtocol bool
 }
 
 // serverHandler delegates to either the server's Handler or
@@ -1601,7 +1617,10 @@ func (sh serverHandler) ServeHTTP(rw ResponseWriter, req *Request) {
 // calls Serve to handle requests on incoming connections.  If
 // srv.Addr is blank, ":http" is used.
 func (srv *Server) ListenAndServe() error {
-	addr := srv.Addr
+	addr, e := srv.parseAddr()
+	if e != nil {
+		return e
+	}
 	if addr == "" {
 		addr = ":http"
 	}
@@ -1610,6 +1629,23 @@ func (srv *Server) ListenAndServe() error {
 		return e
 	}
 	return srv.Serve(l)
+}
+
+func (srv *Server) parseAddr() (string, error) {
+	sepInd := strings.IndexByte(srv.Addr, '|')
+	if sepInd == -1 {
+		return srv.Addr, nil
+	} else {
+		for _, o := range srv.Addr[sepInd+1:] {
+			switch o {
+			case 'P':
+				srv.usingProxyProtocol = true
+			default:
+				return "", ErrInvalidOption
+			}
+		}
+		return srv.Addr[:sepInd], nil
+	}
 }
 
 // Serve accepts incoming connections on the Listener l, creating a
@@ -1656,7 +1692,7 @@ func (srv *Server) Serve(l net.Listener) error {
 //
 //	import (
 //		"io"
-//		"net/http"
+//		"github.com/songgao/go.http"
 //		"log"
 //	)
 //
@@ -1687,7 +1723,7 @@ func ListenAndServe(addr string, handler Handler) error {
 //
 //	import (
 //		"log"
-//		"net/http"
+//		"github.com/songgao/go.http"
 //	)
 //
 //	func handler(w http.ResponseWriter, req *http.Request) {
@@ -1720,7 +1756,10 @@ func ListenAndServeTLS(addr string, certFile string, keyFile string, handler Han
 //
 // If srv.Addr is blank, ":https" is used.
 func (srv *Server) ListenAndServeTLS(certFile, keyFile string) error {
-	addr := srv.Addr
+	addr, e := srv.parseAddr()
+	if e != nil {
+		return nil
+	}
 	if addr == "" {
 		addr = ":https"
 	}

@@ -12,13 +12,13 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
+	. "github.com/songgao/go.http"
+	"github.com/songgao/go.http/httptest"
+	"github.com/songgao/go.http/httputil"
 	"io"
 	"io/ioutil"
 	"log"
 	"net"
-	. "net/http"
-	"net/http/httptest"
-	"net/http/httputil"
 	"net/url"
 	"os"
 	"os/exec"
@@ -1530,7 +1530,7 @@ func TestCaseSensitiveMethod(t *testing.T) {
 
 // TestContentLengthZero tests that for both an HTTP/1.0 and HTTP/1.1
 // request (both keep-alive), when a Handler never writes any
-// response, the net/http package adds a "Content-Length: 0" response
+// response, the github.com/songgao/go.http package adds a "Content-Length: 0" response
 // header.
 func TestContentLengthZero(t *testing.T) {
 	ts := httptest.NewServer(HandlerFunc(func(rw ResponseWriter, req *Request) {}))
@@ -1948,7 +1948,7 @@ func TestHTTP10ConnectionHeader(t *testing.T) {
 	ts := httptest.NewServer(mux)
 	defer ts.Close()
 
-	// net/http uses HTTP/1.1 for requests, so write requests manually
+	// github.com/songgao/go.http uses HTTP/1.1 for requests, so write requests manually
 	tests := []struct {
 		req    string   // raw http request
 		expect []string // expected Connection header(s)

@@ -10,8 +10,8 @@ import (
 	"crypto/tls"
 	"flag"
 	"fmt"
+	http "github.com/songgao/go.http"
 	"net"
-	"net/http"
 	"os"
 	"sync"
 )
